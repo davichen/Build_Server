@@ -1,0 +1,3 @@
+route -p change 0.0.0.0 mask 0.0.0.0 192.168.11.1 METRIC 1
+route -p add 0.0.0.0 mask 0.0.0.0 172.26.41.254 METRIC 17
+route -p add 172.26.0.0 mask 255.255.0.0 172.26.41.254 METRIC 14
