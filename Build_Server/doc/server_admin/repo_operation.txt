@@ -1,0 +1,131 @@
+====================================Git Operation====================================
+1. create a new branch and switch
+	repo forall -c 'git checkout -b SDK_1.3-pretest'
+2. delete a branch
+	repo forall -c 'git branch -d SDK_1.3-pretest'
+3. check in branch to git server
+	repo forall -c 'git push git@gitserver:/${REPO_PROJECT} SDK_1.3-pretest'
+
+4. remove branch from git server
+	repo forall -c 'git push git@gitserver:/${REPO_PROJECT} :heads/SDK_1.3-pretest'
+
+repo forall -c 'git push git@gitserver:/${REPO_PROJECT} branch SDK_1.3-pretest'
+repo forall -c 'git push ssh://gitserver:29418/${REPO_PROJECT} branch SDK_1.3-pretest'
+=====================================================================================
+Git tag:
+
+repo forall -c 'echo ${REPO_PROJECT}'
+
+repo forall -c 'git tag TAG_SDK1.2.2'
+
+repo forall -c 'git push git@gitserver:/${REPO_PROJECT} TAG_SDK1.2.2'
+
+ 
+
+git delete tag:
+
+repo forall -c 'git tag -d TAG_SDK1.2.2'
+
+repo forall -c 'git push git@gitserver:/${REPO_PROJECT} :refs/tags/ TAG_SDK1.2.2'
+
+ 
+
+Svn tag:
+
+svn copy -r43 svn+ssh://172.26.201.31/home/svn/audio_server/branches/SDK_1.2/ svn+ssh://172.26.201.31/home/svn/audio_server/tags/TAG_SDK1.2.2 -m 'TAG SDK1.2.2'
+
+svn copy -r19 svn+ssh://172.26.201.31/home/svn/audio_server2/branches/SDK_1.2/ svn+ssh://172.26.201.31/home/svn/audio_server2/tags/TAG_SDK1.2.2 -m 'TAG SDK1.2.2'
+
+svn copy -r62 svn+ssh://172.26.201.31/home/svn/skyDMC-0.5.4.0/branches/SDK_1.2/ svn+ssh://172.26.201.31/home/svn/skyDMC-0.5.4.0/tags/TAG_SDK1.2.2 -m 'TAG SDK1.2.2'
+
+svn copy -r1119 svn+ssh://172.26.201.31/home/svn/linux-2.6.32.9/branches/SDK_1.2/ svn+ssh://172.26.201.31/home/svn/linux-2.6.32.9/tags/TAG_SDK1.2.2 -m 'TAG SDK1.2.2'
+
+svn copy -r1405 svn+ssh://172.26.201.31/home/svn/mplayer/branches/SDK_1.2/ svn+ssh://172.26.201.31/home/svn/mplayer/tags/TAG_SDK1.2.2 -m 'TAG SDK1.2.2'
+
+svn copy -r318 svn+ssh://172.26.201.31/home/svn/On2/branches/SDK_1.2/ svn+ssh://172.26.201.31/home/svn/On2/tags/TAG_SDK1.2.2 -m 'TAG SDK1.2.2'
+
+svn copy -r92 svn+ssh://172.26.201.31/home/svn/svsd/branches/SDK_1.2/ svn+ssh://172.26.201.31/home/svn/svsd/tags/TAG_SDK1.2.2 -m 'TAG SDK1.2.2'
+
+svn copy -r191 svn+ssh://172.26.201.31/home/svn/u-boot/branches/SDK_1.2/ svn+ssh://172.26.201.31/home/svn/u-boot/tags/TAG_SDK1.2.2 -m 'TAG SDK1.2.2'
+
+ 
+
+?看svn的tag有?有建成功：
+
+svn ls svn+ssh://172.26.201.31/home/svn/audio_server/tags/ 
+
+svn ls svn+ssh://172.26.201.31/home/svn/audio_server2/tags/ 
+
+svn ls svn+ssh://172.26.201.31/home/svn/skyDMC-0.5.4.0/tags/ 
+
+svn ls svn+ssh://172.26.201.31/home/svn/linux-2.6.32.9/tags/
+
+svn ls svn+ssh://172.26.201.31/home/svn/mplayer/tags/ 
+
+svn ls svn+ssh://172.26.201.31/home/svn/On2/tags/ 
+
+svn ls svn+ssh://172.26.201.31/home/svn/svsd/tags/
+
+svn ls svn+ssh://172.26.201.31/home/svn/u-boot/tags/
+
+ 
+
+Git branch:
+
+repo forall -c 'git branch new-branch-name
+
+repo forall -c 'git push git@gitserver:/${REPO_PROJECT} new-branch-name '
+
+ 
+
+Git delete branch:
+
+repo forall –c ‘git branch -d new-branch-name’
+
+repo forall -c 'git push git@gitserver:/${REPO_PROJECT} :heads/new-branch-name'
+
+ 
+
+branch the latest revision of trunk to branches/SDK_1.3 on svn server:
+
+svn copy -rHEAD svn+ssh://172.26.201.31/home/svn/audio_server/trunk/ svn+ssh://172.26.201.31/home/svn/audio_server/branches/SDK_1.3 -m 'branch SDK1.3'
+
+svn copy -rHEAD svn+ssh://172.26.201.31/home/svn/audio_server2/trunk/ svn+ssh://172.26.201.31/home/svn/audio_server2/branches/SDK_1.3 -m 'branch SDK1.3'
+
+svn copy -rHEAD svn+ssh://172.26.201.31/home/svn/skyDMC-0.5.4.0/trunk/ svn+ssh://172.26.201.31/home/svn/skyDMC-0.5.4.0/branches/SDK_1.3 -m 'branch SDK1.3'
+
+svn copy -rHEAD svn+ssh://172.26.201.31/home/svn/linux-2.6.32.9/trunk/ svn+ssh://172.26.201.31/home/svn/linux-2.6.32.9/branches/SDK_1.3 -m 'branch SDK1.3'
+
+svn copy -rHEAD svn+ssh://172.26.201.31/home/svn/mplayer/trunk/ svn+ssh://172.26.201.31/home/svn/mplayer/branches/SDK_1.3 -m 'branch SDK1.3'
+
+svn copy -rHEAD svn+ssh://172.26.201.31/home/svn/On2/trunk/ svn+ssh://172.26.201.31/home/svn/On2/branches/SDK_1.3 -m 'branch SDK1.3'
+
+svn copy -rHEAD svn+ssh://172.26.201.31/home/svn/svsd/trunk/ svn+ssh://172.26.201.31/home/svn/svsd/branches/SDK_1.3 -m 'branch SDK1.3'
+
+svn copy -rHEAD svn+ssh://172.26.201.31/home/svn/u-boot/trunk/ svn+ssh://172.26.201.31/home/svn/u-boot/branches/SDK_1.3 -m 'branch SDK1.3'
+
+ 
+
+?看svn的branches有?有建成功：
+
+svn ls svn+ssh://172.26.201.31/home/svn/audio_server/branches/ 
+
+svn ls svn+ssh://172.26.201.31/home/svn/audio_server2/branches/ 
+
+svn ls svn+ssh://172.26.201.31/home/svn/skyDMC-0.5.4.0/branches/ 
+
+svn ls svn+ssh://172.26.201.31/home/svn/linux-2.6.32.9/branches/
+
+svn ls svn+ssh://172.26.201.31/home/svn/mplayer/branches/ 
+
+svn ls svn+ssh://172.26.201.31/home/svn/On2/branches/ 
+
+svn ls svn+ssh://172.26.201.31/home/svn/svsd/branches/
+
+svn ls svn+ssh://172.26.201.31/home/svn/u-boot/branches/
+
+ 
+
+
+
+
