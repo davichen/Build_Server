@@ -30,6 +30,13 @@ create a git repository
 TW Sir	:dukelin@skyviia.com.tw, paochunchi@skyviia.com.tw, cmlin@skyviia.com.tw, skyshyu@skyviia.com.tw, jeffreychen@skyviia.com.tw, jimyang@skyviia.com.tw
 SZ Sir	:skyshyu@skyviia.com.tw, jeffreychen@skyviia.com.tw, jimyang@skyviia.com.tw, stchen@skyviia.com.tw, ricciwang@skyviia.com.tw
 ##############################################################################################
+# About create a new tag
+##############################################################################################
+1.git tag -a SVAFEP004 8336f52f
+	edit tag log
+	
+2.git push origin SVAFEP004
+##############################################################################################
 	FTA_SDK_v1.4_SVAFEP002 config
 ##############################################################################################
 [core]
