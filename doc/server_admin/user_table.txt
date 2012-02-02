@@ -1,0 +1,543 @@
+# /bin/bash
+##############################################################################################
+# About add a new guy
+##############################################################################################
+#	1.Add a new user by "sudo useradd -u [uid] -g 9999 -s /bin/bash -m [user name]"
+#	2.Setup passwd by "sudo passwd [user]"
+#	3.Restart yp server by "sudo /usr/lib/yp/ypinit -m"
+#	4.Setup Samba for new account by "sudo smbpasswd -a [user]"
+#		sudo vim /etc/samba/smb.conf
+#		[user]
+#   	comment = User user's folder
+#   	path = /home/user
+#   	guest ok = no
+#  		public = yes
+#   	writable = yes
+#   	create mode = 0744
+#   	directory mode = 0744
+#   	valid users = user
+#	5.Restart Samba Server by "sudo service smbd restart"
+#	6.RSA Key assign
+#		ssh-keygen -t rsa -b 4096 -N '' -f [user]
+#
+#	00:1f:cf:60:30:4b ~ 00:1f:cf:60:30:4f : For RD 測試
+#
+#	00:1f:cf:60:30:41 ~ 00:1f:cf:60:30:4a : For 深圳測試
+#
+#	00:1f:cf:60:30:37 ~ 00:1f:cf:60:30:40 : For 台灣FAE
+#
+#	00:1f:cf:60:30:32 ~ 00:1f:cf:60:30:36 : For Sales
+#
+##############################################################################################	
+#	user table			UID 	GID		CMD
+#		e000
+#								9999 	sudo groupadd -g 9999 e000
+#
+##############################################################################################
+#		Special
+##############################################################################################		
+#		git				5000	9999 	sudo useradd -u 5000 -g 9999 -s /bin/bash -m git
+#								 		sudo passwd git 
+#										sudo smbpasswd -a jimyang
+#		samba			5001	9999 	sudo useradd -u 5001 -g 9999 -s /bin/sh -m samba
+#								 		sudo passwd samba 
+#											
+##############################################################################################
+#		FAE Team
+##############################################################################################		
+#		jimyang			1100	9999 	sudo useradd -u 1100 -g 9999 -s /bin/bash -m jimyang
+#								 		sudo passwd jimyang 
+#										sudo smbpasswd -a jimyang
+#
+#		skyhsu			1101	9999 	sudo useradd -u 1101 -g 9999 -s /bin/bash -m skyhsu
+#								 		sudo passwd skyhsu 
+#										sudo smbpasswd -a skyhsu
+#
+#		paochunchi		1102	9999 	sudo useradd -u 1102 -g 9999 -s /bin/bash -m paochunchi
+#								 		sudo passwd paochunchi 
+#										sudo smbpasswd -a paochunchi
+#
+#		hankyang		1103	9999 	sudo useradd -u 1103 -g 9999 -s /bin/bash -m hankyang
+#								 		sudo passwd hankyang 
+#										sudo smbpasswd -a hankyang
+#
+#		kennylai		1104	9999 	sudo useradd -u 1104 -g 9999 -s /bin/bash -m kennylai
+#								 		sudo passwd kennylai 
+#										sudo smbpasswd -a kennylai
+#
+#		edwardyang		1105	9999 	sudo useradd -u 1105 -g 9999 -s /bin/bash -m edwardyang
+#								 		sudo passwd edwardyang 
+#										sudo smbpasswd -a edwardyang
+#
+#		terrycho		1106	9999 	sudo useradd -u 1106 -g 9999 -s /bin/bash -m terrycho
+#								 		sudo passwd terrycho 
+#										sudo smbpasswd -a terrycho
+#
+#		peterwu			1107	9999 	sudo useradd -u 1107 -g 9999 -s /bin/bash -m peterwu
+#								 		sudo passwd peterwu 
+#										sudo smbpasswd -a peterwu
+#
+##############################################################################################
+#		AE Team
+##############################################################################################
+#		skyviiaBM3 (.3) member
+#
+#		cmlin			1200	9999 	sudo useradd -u 1200 -g 9999 -s /bin/bash -m cmlin
+#								 		sudo passwd cmlin 
+#										sudo smbpasswd -a cmlin
+#
+#		davichen		1203	9999 	sudo useradd -u 1203 -g 9999 -s /bin/bash -m davichen
+#								 		sudo passwd davichen
+#										sudo smbpasswd -a davichen
+#						 
+#		vincentfan		1201	9999 	sudo useradd -u 1201 -g 9999 -s /bin/bash -m vincentfan
+#								 		sudo passwd vincentfan
+#										sudo smbpasswd -a vincentfan
+#	
+#		letblee			9876	9999 	sudo useradd -u 9876 -g 9999 -s /bin/bash -m letbli
+#								 		sudo passwd letbli
+#										sudo smbpasswd -a letbli
+#
+#	
+#		zufengchou		4020	9999 	sudo useradd -u 4020 -g 9999 -s /bin/bash -m zufengchou
+#								 		sudo passwd zufengchou
+#										sudo smbpasswd -a zufengchou
+#
+#-------------------------------------------------------------------------------------------------------------
+#		skyviiaBM2 (.52) member	
+#	
+#		evancechang		1204	9999 	sudo useradd -u 1204 -g 9999 -s /bin/bash -m evancechang
+#								 		sudo passwd evancechang
+#										sudo smbpasswd -a evancechang
+#	
+#		leocheng		1210	9999 	sudo useradd -u 1210 -g 9999 -s /bin/bash -m leocheng
+#								 		sudo passwd leocheng
+#										sudo smbpasswd -a leocheng
+#
+#		owencheng		1208	9999 	sudo useradd -u 1208 -g 9999 -s /bin/bash -m owencheng
+#								 		sudo passwd owencheng	
+#										sudo smbpasswd -a owencheng
+#
+#		janeho			1212	9999 	sudo useradd -u 1212 -g 9999 -s /bin/bash -m janeho
+#								 		sudo passwd janeho
+#										sudo smbpasswd -a janeho
+#
+#-------------------------------------------------------------------------------------------------------------
+#		skyviiaBM1 (.161) member			
+#
+#		jedli			1202	9999 	sudo useradd -u 4000 -g 9999 -s /bin/bash -m jedli
+#									 	sudo passwd jedli
+#										sudo smbpasswd -a jedli
+# 					 
+#		godfreyyang		1202	9999 	sudo useradd -u 1202 -g 9999 -s /bin/bash -m godfreyyang
+#									 	sudo passwd godfreyyang
+#										sudo smbpasswd -a godfreyyang
+# 	
+#		dennyliu		1206	9999 	sudo useradd -u 1206 -g 9999 -s /bin/bash -m dennyliu
+#								 		sudo passwd dennyliu
+#										sudo smbpasswd -a dennyliu
+#
+#		minchayshu		1207	9999 	sudo useradd -u 1207 -g 9999 -s /bin/bash -m minchayshu
+#								 		sudo passwd minchayshu		
+#										sudo smbpasswd -a minchayshu
+#
+#		kaneykao		1205	9999 	sudo useradd -u 1205 -g 9999 -s /bin/bash -m kaneykao
+#								 		sudo passwd kaneykao
+#										sudo smbpasswd -a kaneykao
+#	
+#-------------------------------------------------------------------------------------------------------------
+#
+#		hanklu			1209	9999 	sudo useradd -u 1209 -g 9999 -s /bin/bash -m hanklu
+#								 		sudo passwd hanklu
+#										sudo smbpasswd -a hanklu
+#					 				 						
+#1212		 				 	
+##############################################################################################
+#		SZ AE/FAE Team
+##############################################################################################
+#		ricciwang		2001	9999 	sudo useradd -u 2001 -g 9999 -s /bin/bash -m ricciwang
+#								 		sudo passwd ricciwang
+#										sudo smbpasswd -a ricciwang
+#		
+#		rockhuang		2002	9999 	sudo useradd -u 2002 -g 9999 -s /bin/bash -m rockhuang
+#								 		sudo passwd rockhuang
+#										sudo smbpasswd -a rockhuang
+#
+#		claypan			2003	9999 	sudo useradd -u 2003 -g 9999 -s /bin/bash -m claypan
+#								 		sudo passwd claypan
+#										sudo smbpasswd -a claypan
+#
+#		kevinwang		2004	9999 	sudo useradd -u 2004 -g 9999 -s /bin/bash -m kevinwang
+#								 		sudo passwd kevinwang
+#										sudo smbpasswd -a kevinwang
+#
+#		hanjinhuang		2005	9999 	sudo useradd -u 2005 -g 9999 -s /bin/bash -m hanjinhuang
+#								 		sudo passwd hanjinhuang
+#										sudo smbpasswd -a hanjinhuang
+#
+#		letuschang		2006	9999 	sudo useradd -u 2006 -g 9999 -s /bin/bash -m letuschang
+#								 		sudo passwd letuschang
+#										sudo smbpasswd -a letuschang
+#
+#		victorchen		2007	9999 	sudo useradd -u 2007 9999 -s /bin/bash -m victorchen
+#								 		sudo passwd victorchen
+#										sudo smbpasswd -a victorchen
+#
+#		tienlohhang		2008	9999 	sudo useradd -u 2008 -g 9999 -s /bin/bash -m tienlohhang
+#								 		sudo passwd tienlohhang
+#										sudo smbpasswd -a tienlohhang
+#
+##############################################################################################
+#		E000 Team
+##############################################################################################							 							 
+#		waterwu			3000	9999 	sudo useradd -u 3000 -g 9999 -s /bin/bash -m waterwu
+#								 		sudo passwd waterwu
+#										sudo smbpasswd -a waterwu
+#
+#		cck				3001	9999 	sudo useradd -u 3001 -g 9999 -s /bin/bash -m cck
+#								 		sudo passwd cck
+#										sudo smbpasswd -a cck
+#			
+#		jeanpeng		3002	9999 	sudo useradd -u 3002 -g 9999 -s /bin/bash -m jeanpeng
+#								 		sudo passwd jeanpeng
+#										sudo smbpasswd -a jeanpeng
+#		
+##############################################################################################
+#		RD Team
+##############################################################################################
+#		markyang		4001	9999 	sudo useradd -u 4001 -g 9999 -s /bin/bash -m markyang
+#								 		sudo passwd markyang
+#										sudo smbpasswd -a markyang
+#
+#		michaeltsai		4002	9999 	sudo useradd -u 4002 -g 9999 -s /bin/bash -m michaeltsai
+#								 		sudo passwd michaeltsai
+#										sudo smbpasswd -a michaeltsai
+#
+#		williechen		4003	9999 	sudo useradd -u 4003 -g 9999 -s /bin/bash -m williechen
+#								 		sudo passwd williechen
+#										sudo smbpasswd -a williechen
+#
+#		fcliu			4004	9999 	sudo useradd -u 4004 -g 9999 -s /bin/bash -m fcliu
+#								 		sudo passwd fcliu
+#										sudo smbpasswd -a fcliu
+#
+#		bkchuang		4005	9999 	sudo useradd -u 4005 -g 9999 -s /bin/bash -m bkchuang
+#								 		sudo passwd bkchuang
+#										sudo smbpasswd -a bkchuang
+#
+#		amyho			4006	9999 	sudo useradd -u 4006 -g 9999 -s /bin/bash -m amyho
+#								 		sudo passwd amyho
+#										sudo smbpasswd -a amyho
+#
+#		charleskao		4007	9999 	sudo useradd -u 4007 -g 9999 -s /bin/bash -m charleskao
+#								 		sudo passwd charleskao
+#										sudo smbpasswd -a charleskao
+#
+#		yenmaoteo		4008	9999 	sudo useradd -u 4008 -g 9999 -s /bin/bash -m yenmaoteo
+#								 		sudo passwd yenmaoteo
+#										sudo smbpasswd -a yenmaoteo
+#
+#		charleslin		4009	9999 	sudo useradd -u 4009 -g 9999 -s /bin/bash -m charleslin
+#								 		sudo passwd charleslin
+#										sudo smbpasswd -a charleslin
+#
+#		robertluo		4010	9999 	sudo useradd -u 4010 -g 9999 -s /bin/bash -m robertluo
+#								 		sudo passwd robertluo
+#										sudo smbpasswd -a robertluo
+#
+#		jinncheng		4011	9999 	sudo useradd -u 4011 -g 9999 -s /bin/bash -m jinncheng
+#								 		sudo passwd jinncheng
+#										sudo smbpasswd -a jinncheng
+#
+#		roadmanlo		4012	9999 	sudo useradd -u 4012 -g 9999 -s /bin/bash -m roadmanlo
+#								 		sudo passwd roadmanlo
+#										sudo smbpasswd -a roadmanlo
+#
+#		barrychiang		4013	9999 	sudo useradd -u 4013 -g 9999 -s /bin/bash -m barrychiang
+#								 		sudo passwd barrychiang
+#										sudo smbpasswd -a barrychiang
+#
+#		errowchiou		4014	9999 	sudo useradd -u 4014 -g 9999 -s /bin/bash -m errowchiou
+#								 		sudo passwd errowchiou
+#										sudo smbpasswd -a errowchiou
+#
+#		carlostai		4015	9999 	sudo useradd -u 4015 -g 9999 -s /bin/bash -m carlostai
+#								 		sudo passwd carlostai
+#										sudo smbpasswd -a carlostai
+#
+#		fuchunyang		4016	9999 	sudo useradd -u 4016 -g 9999 -s /bin/bash -m fuchunyang
+#								 		sudo passwd fuchunyang
+#										sudo smbpasswd -a fuchunyang
+#
+#		chiyaulin		4017	9999 	sudo useradd -u 4017 -g 9999 -s /bin/bash -m chiyaulin
+#								 		sudo passwd chiyaulin
+#										sudo smbpasswd -a chiyaulin
+#
+#		rodmanlou		4018	9999 	sudo useradd -u 4018 -g 9999 -s /bin/bash -m rodmanlou
+#								 		sudo passwd rodmanlou
+#										sudo smbpasswd -a rodmanlou
+#
+#		skyviia			4019	9999 	sudo useradd -u 4019 -g 9999 -s /bin/bash -m skyviia
+#								 		sudo passwd skyviia
+#										sudo smbpasswd -a skyviia
+#
+#		zufengchou		4020	9999 	sudo useradd -u 4020 -g 9999 -s /bin/bash -m zufengchou
+#								 		sudo passwd zufengchou
+#										sudo smbpasswd -a zufengchou
+#
+#		samchen			4021	9999 	sudo useradd -u 4021 -g 9999 -s /bin/bash -m samchen
+#								 		sudo passwd samchen
+#										sudo smbpasswd -a samchen
+#
+#		sjlin			4022	9999 	sudo useradd -u 4022 -g 9999 -s /bin/bash -m sjlin
+#								 		sudo passwd sjlin
+#										sudo smbpasswd -a sjlin
+#
+#		ronaldyang		4023	9999 	sudo useradd -u 4023 -g 9999 -s /bin/bash -m ronaldyang
+#								 		sudo passwd ronaldyang
+#										sudo smbpasswd -a ronaldyang
+#
+#		johnnyyang		4024	9999 	sudo useradd -u 4024 -g 9999 -s /bin/bash -m johnnyyang
+#								 		sudo passwd johnnyyang
+#										sudo smbpasswd -a johnnyyang
+#
+#		louistien		4025	9999 	sudo useradd -u 4025 -g 9999 -s /bin/bash -m louistien
+#								 		sudo passwd louistien
+#										sudo smbpasswd -a louistien
+#
+#		jackykao		4026	9999 	sudo useradd -u 4026 -g 9999 -s /bin/bash -m jackykao
+#								 		sudo passwd jackykao
+#										sudo smbpasswd -a jackykao
+#
+#		jackykao		4026	9999 	sudo useradd -u 4026 -g 9999 -s /bin/bash -m jackykao
+#								 		sudo passwd jackykao
+#										sudo smbpasswd -a jackykao
+#                
+#		dennistuan		4027	9999 	sudo useradd -u 4027 -g 9999 -s /bin/bash -m dennistuan
+#								 		sudo passwd dennistuan
+#										sudo smbpasswd -a dennistuan
+#
+#		jeffreypeng		4028	9999 	sudo useradd -u 4028 -g 9999 -s /bin/bash -m jeffreypeng
+#								 		sudo passwd jeffreypeng
+#										sudo smbpasswd -a dennistuan    
+##############################################################################################
+#		Guest Team
+##############################################################################################	
+#		kevin			8000	9999	sudo useradd -u 8000 -g 9999 -s /bin/bash -m kevin
+#								 		sudo passwd kevin
+#
+#		fujitsu			8001	9999	sudo useradd -u 8001 -g 9999 -s /bin/bash -m fujitsu
+#								 		sudo passwd fujitsu
+#
+#		coarly			8002	9999	sudo useradd -u 8002 -g 9999 -s /bin/bash -m coarly
+#								 		sudo passwd coarly
+#
+#		stchen			8003	9999	sudo useradd -u 8003 -g 9999 -s /bin/bash -m stchen
+#								 		sudo passwd stchen
+#
+#		sz-office		     8004	9999	sudo useradd -u 8004 -g 9999 -s /bin/bash -m sz-office
+#								 		sudo passwd sz-office
+#
+#		qabuild		     8005	9999	sudo useradd -u 8005 -g 9999 -s /bin/bash -m qabuild
+#								 		sudo passwd qabuild
+#
+##############################################################################################
+#		/etc/passwd
+##############################################################################################
+git:x:5000:9999::/home/git:/bin/bash
+samba:x:5001:9999::/home/samba:/bin/sh
+
+jimyang:x:1100:9999::/home/jimyang:/bin/bash
+skyhsu:x:1101:9999::/home/skyhsu:/bin/bash
+paochunchi:x:1102:9999::/home/paochunchi:/bin/bash
+hankyang:x:1103:9999::/home/hankyang:/bin/bash
+kennylai:x:1104:9999::/home/kennylai:/bin/bash
+edwardyang:x:1105:9999::/home/edwardyang:/bin/bash
+terrycho:x:1106:9999::/home/terrycho:/bin/bash
+
+cmlin:x:1200:9999::/home/cmlin:/bin/bash
+vincentfan:x:1201:9999::/home/vincentfan:/bin/bash
+godfreyyang:x:1202:9999::/home/godfreyyang:/bin/bash
+davichen:x:1203:9999::/home/davichen:/bin/bash
+evancechang:x:1204:9999::/home/evancechang:/bin/bash
+kaneykao:x:1205:9999::/home/kaneykao:/bin/bash
+dennyliu:x:1206:9999::/home/dennyliu:/bin/bash
+minchay:x:1207:9999::/home/minchay:/bin/bash
+owencheng:x:1208:9999::/home/owencheng:/bin/bash
+hanklu:x:1209:9999::/home/hanklu:/bin/bash
+
+ricciwang:x:2001:9999::/home/ricciwang:/bin/bash
+rockhuang:x:2002:9999::/home/rockhuang:/bin/bash
+claypan:x:2003:9999::/home/claypan:/bin/bash
+kevinwang:x:2004:9999::/home/kevinwang:/bin/bash
+
+waterwu:x:3000:9999::/home/waterwu:/bin/bash
+cck:x:3000:9999::/home/cck:/bin/bash
+
+##############################################################################################
+#		/etc/sudoers
+##############################################################################################	
+#jimyang		ALL=(ALL) NOPASSWD:ALL
+#skyhsu			ALL=(ALL) NOPASSWD:ALL
+#paochunchi		ALL=(ALL) NOPASSWD:ALL
+#hankyang		ALL=(ALL) NOPASSWD:ALL
+#kennylai		ALL=(ALL) NOPASSWD:ALL
+#edwardyang		ALL=(ALL) NOPASSWD:ALL
+#terrycho		ALL=(ALL) NOPASSWD:ALL
+
+#cmlin			ALL=(ALL) NOPASSWD:ALL
+#vincentfan		ALL=(ALL) NOPASSWD:ALL
+#godfreyyang	ALL=(ALL) NOPASSWD:ALL
+#davichen		ALL=(ALL) NOPASSWD:ALL
+#evancechang	ALL=(ALL) NOPASSWD:ALL
+#kaneykao		ALL=(ALL) NOPASSWD:ALL
+#dennyliu		ALL=(ALL) NOPASSWD:ALL
+#minchay		ALL=(ALL) NOPASSWD:ALL
+#owencheng		ALL=(ALL) NOPASSWD:ALL
+#hanklu			ALL=(ALL) NOPASSWD:ALL
+
+#ricciwang		ALL=(ALL) NOPASSWD:ALL
+#rockhuang		ALL=(ALL) NOPASSWD:ALL
+#claypan		ALL=(ALL) NOPASSWD:ALL
+#kevinwang		ALL=(ALL) NOPASSWD:ALL
+
+#waterwu		ALL=(ALL) NOPASSWD:ALL
+#cck			ALL=(ALL) NOPASSWD:ALL
+
+#kevin			ALL=(ALL) NOPASSWD:ALL
+#skyviia		ALL=(ALL) NOPASSWD:ALL
+#%e000			ALL=(ALL) NOPASSWD:ALL
+##############################################################################################
+#		/etc/exports
+##############################################################################################
+/share *(ro,nohide,insecure,no_subtree_check,async)
+/home/cmlin  		172.26.0.0/255.255.0.0(rw,nohide,insecure,no_subtree_check,async,all_squash,anonuid=1200,anongid=9999)
+/home/vincentfan  	172.26.0.0/255.255.0.0(rw,nohide,insecure,no_subtree_check,async,all_squash,anonuid=1201,anongid=9999)
+/home/godfreyyang	172.26.0.0/255.255.0.0(rw,nohide,insecure,no_subtree_check,async,all_squash,anonuid=1202,anongid=9999)
+/home/davichen  	172.26.0.0/255.255.0.0(rw,nohide,insecure,no_subtree_check,async,all_squash,anonuid=1203,anongid=9999)
+/home/evancechang	172.26.0.0/255.255.0.0(rw,nohide,insecure,no_subtree_check,async,all_squash,anonuid=1204,anongid=9999)
+/home/kaneykao		172.26.0.0/255.255.0.0(rw,nohide,insecure,no_subtree_check,async,all_squash,anonuid=1205,anongid=9999)
+/home/dennyliu		172.26.0.0/255.255.0.0(rw,nohide,insecure,no_subtree_check,async,all_squash,anonuid=1206,anongid=9999)
+/home/minchay		172.26.0.0/255.255.0.0(rw,nohide,insecure,no_subtree_check,async,all_squash,anonuid=1207,anongid=9999)
+/home/owencheng		172.26.0.0/255.255.0.0(rw,nohide,insecure,no_subtree_check,async,all_squash,anonuid=1208,anongid=9999)
+/home/hanklu		172.26.0.0/255.255.0.0(rw,nohide,insecure,no_subtree_check,async,all_squash,anonuid=1209,anongid=9999)
+##############################################################################################
+#		common bash file setting for 172.26.41.175	/etc/bash.bashrc
+##############################################################################################	
+if [ -d /home/$USER ]; then
+#echo "dir [--$USER--] exist"
+        echo
+else
+        sudo mkdir /home/$USER
+        sudo mkdir /home/$USER/_172.26.41.161_$USER
+		sudo mkdir /home/$USER/_172.26.41.52_$USER
+        sudo cp /etc/skel/.* /home/$USER
+        sudo cp /etc/skel/*.sh /home/$USER
+        sudo chown -R $USER:e000 /home/$USER
+        cd
+fi
+##############################################################################################
+#		common bash file setting for 172.26.41.161	/etc/bash.bashrc
+##############################################################################################	
+if [ -d /home/$USER ]; then
+#echo "dir [--$USER--] exist"
+        echo
+else
+        sudo mkdir /home/$USER
+        sudo mkdir /home/$USER/_172.26.41.175_$USER
+		sudo mkdir /home/$USER/_172.26.41.52_$USER
+        sudo cp /etc/skel/.* /home/$USER
+        sudo cp /etc/skel/*.sh /home/$USER
+        sudo chown -R $USER:e000 /home/$USER
+        cd
+fi
+##############################################################################################
+#		common bash file setting for 172.26.41.52	/etc/bash.bashrc
+##############################################################################################	
+if [ -d /home/$USER ]; then
+#echo "dir [--$USER--] exist"
+        echo
+else
+        sudo mkdir /home/$USER
+        sudo mkdir /home/$USER/_172.26.41.175_$USER
+		sudo mkdir /home/$USER/_172.26.41.161_$USER
+        sudo cp /etc/skel/.* /home/$USER
+        sudo cp /etc/skel/*.sh /home/$USER
+        sudo chown -R $USER:e000 /home/$USER
+        cd
+fi
+
+##############################################################################################
+#		user bash file setting	/etc/skel/mount_nfs.sh
+##############################################################################################
+#!/bin/bash
+if [ `mount |  grep -c '172.26.41.175:/home/$USER'` != 1 ] ; then
+        sudo mount -t nfs 172.26.41.175:/home/$USER /home/$USER/_172.26.41.175_$USER
+        sudo mount -t nfs 172.26.41.175:/home/$USER /home/$USER/_172.26.41.161_$USER
+fi
+
+##############################################################################################
+#		user bash file setting	/etc/skel/.bashrc
+##############################################################################################
+./mount_nfs.sh &
+
+##############################################################################################
+#		NFS Share (AE Only)	/etc/exports
+##############################################################################################	
+/home/jimyang  172.26.41.0/255.255.255.0(rw,nohide,insecure,no_subtree_check,async,all_squash,anonuid=1100,anongid=9999)
+/home/skyhsu  172.26.41.0/255.255.255.0(rw,nohide,insecure,no_subtree_check,async,all_squash,anonuid=1101,anongid=9999)
+/home/paochunchi  172.26.41.0/255.255.255.0(rw,nohide,insecure,no_subtree_check,async,all_squash,anonuid=1102,anongid=9999)
+/home/hankyang  172.26.41.0/255.255.255.0(rw,nohide,insecure,no_subtree_check,async,all_squash,anonuid=1103,anongid=9999)
+/home/kennylai  172.26.41.0/255.255.255.0(rw,nohide,insecure,no_subtree_check,async,all_squash,anonuid=1104,anongid=9999)
+/home/edwardyang  172.26.41.0/255.255.255.0(rw,nohide,insecure,no_subtree_check,async,all_squash,anonuid=1105,anongid=9999)
+/home/terrycho  172.26.41.0/255.255.255.0(rw,nohide,insecure,no_subtree_check,async,all_squash,anonuid=1106,anongid=9999)
+
+
+/home/cmlin  172.26.41.0/255.255.255.0(rw,nohide,insecure,no_subtree_check,async,all_squash,anonuid=1200,anongid=9999)
+/home/vincentfan  172.26.41.0/255.255.255.0(rw,nohide,insecure,no_subtree_check,async,all_squash,anonuid=1201,anongid=9999)
+/home/godfreyyang  172.26.41.0/255.255.255.0(rw,nohide,insecure,no_subtree_check,async,all_squash,anonuid=1202,anongid=9999)
+/home/davichen  172.26.41.0/255.255.255.0(rw,nohide,insecure,no_subtree_check,async,all_squash,anonuid=1203,anongid=9999)
+/home/evancechang  172.26.41.0/255.255.255.0(rw,nohide,insecure,no_subtree_check,async,all_squash,anonuid=1204,anongid=9999)
+/home/kaneykao  172.26.41.0/255.255.255.0(rw,nohide,insecure,no_subtree_check,async,all_squash,anonuid=1205,anongid=9999)
+/home/dennyliu  172.26.41.0/255.255.255.0(rw,nohide,insecure,no_subtree_check,async,all_squash,anonuid=1206,anongid=9999)
+/home/minchay  172.26.41.0/255.255.255.0(rw,nohide,insecure,no_subtree_check,async,all_squash,anonuid=1207,anongid=9999)
+/home/owencheng  172.26.41.0/255.255.255.0(rw,nohide,insecure,no_subtree_check,async,all_squash,anonuid=1208,anongid=9999)
+/home/hanklu  172.26.41.0/255.255.255.0(rw,nohide,insecure,no_subtree_check,async,all_squash,anonuid=1209,anongid=9999)
+
+/home/ricciwang  172.26.41.0/255.255.255.0(rw,nohide,insecure,no_subtree_check,async,all_squash,anonuid=2000,anongid=9999)
+/home/rockhuang  172.26.41.0/255.255.255.0(rw,nohide,insecure,no_subtree_check,async,all_squash,anonuid=2001,anongid=9999)
+/home/claypan  172.26.41.0/255.255.255.0(rw,nohide,insecure,no_subtree_check,async,all_squash,anonuid=2002,anongid=9999)
+/home/kevinwang  172.26.41.0/255.255.255.0(rw,nohide,insecure,no_subtree_check,async,all_squash,anonuid=2003,anongid=9999)
+
+/home/waterwu  172.26.41.0/255.255.255.0(rw,nohide,insecure,no_subtree_check,async,all_squash,anonuid=3000,anongid=9999)
+
+##############################################################################################
+#		Samba configuration folder settings
+##############################################################################################	
+#		Samba Authentication sync 
+#		sudo cp passdb.tdb /var/lib/samba/
+#		sudo service smbd restart
+##############################################################################################
+#[share]
+#   comment = Samba server's share folder
+#   path = /share
+#   guest ok = yes
+#   public = yes
+#   writable = yes
+#   create mode = 0774
+#   directory mode = 0774
+#   valid users = @e000
+#   browseable = yes
+#   
+#[user]
+#   comment = User user's folder
+#   path = /home/user
+#   guest ok = no
+#   public = yes
+#   writable = yes
+#   create mode = 0754
+#   directory mode = 0754
+#   valid users = user
+
+  
+   
